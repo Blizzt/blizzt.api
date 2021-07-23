@@ -1,0 +1,54 @@
+{
+  "name": "blizzt.api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js",
+    "lint": "npx eslint . --fix"
+  },
+  "author": "Germán D. Schneck",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/s3-request-presigner": "^3.22.0",
+    "apollo-server": "^2.19.0",
+    "apollo-server-express": "^2.19.0",
+    "aws-sdk": "^2.951.0",
+    "bcrypt": "^5.0.1",
+    "chalk": "^4.1.0",
+    "cors": "^2.8.5",
+    "dataloader": "^2.0.0",
+    "date-fns": "^2.22.1",
+    "dotenv": "^8.2.0",
+    "ethereumjs-tx": "^2.1.2",
+    "express": "^4.17.1",
+    "graphql": "^15.4.0",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-resolvers": "^0.4.2",
+    "graphql-type-json": "^0.3.2",
+    "graphql-upload": "^12.0.0",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "pg": "^8.5.1",
+    "sequelize": "^5.22.3",
+    "sharp": "^0.27.0",
+    "uuidv4": "^6.2.11",
+    "web3": "^1.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/node": "^7.12.6",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/register": "^7.12.1",
+    "axios": "^0.21.0",
+    "eslint": "^7.14.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6",
+    "sequelize-cli": "^6.2.0"
+  },
+  "resolutions": {
+    "**/**/fs-capacitor": "^6.2.0",
+    "**/graphql-upload": "^11.0.0"
+  }
+}
