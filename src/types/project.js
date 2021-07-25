@@ -31,3 +31,14 @@ ___
 👋 Good luck with your project!
 The Blizzt team.
 \`\`\``;
+
+export const projectTypes = {
+  PRODUCT: 'product',
+  CAMPAIGN: 'campaign',
+}
+
+export const sectorTypes = {
+  GAME: 'game',
+  MOVIE: 'movie',
+  SONG: 'song',
+}

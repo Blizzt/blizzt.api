@@ -2,7 +2,8 @@
 // Seeds Files
 import Users from './users';
 import Categories from './categories';
-import Projects from './Projects';
+import Projects from './projects';
+import NFTs from './nfts';
 
 // Utils
 import Console from '../utils/bash/console';
@@ -19,7 +20,9 @@ export default function() {
         ]);
       })
       .then(() => {
-        return Promise.all([]);
+        return Promise.all([
+          NFTs()
+        ]);
       }).then(() => {
       Console.success('The database has been filled in automatically');
       resolve(true);

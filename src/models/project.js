@@ -1,4 +1,4 @@
-import {markdownDefault} from "../types/project";
+import {markdownDefault, projectTypes, sectorTypes} from "../types/project";
 
 const project = (sequelize, DataTypes) => {
   // Model Architecture
@@ -8,6 +8,34 @@ const project = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false,
       primaryKey: true,
+    },
+    chainId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    collectionAddress: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null,
+    },
+    section: {
+      type: DataTypes.ENUM,
+      values: [
+        sectorTypes.GAME,
+        sectorTypes.SONG,
+        sectorTypes.MOVIE,
+      ],
+      allowNull: false,
+      defaultValue: sectorTypes.GAME,
+    },
+    status: {
+      type: DataTypes.ENUM,
+      values: [
+        projectTypes.CAMPAIGN,
+        projectTypes.PRODUCT
+      ],
+      allowNull: false,
+      defaultValue: projectTypes.CAMPAIGN,
     },
     ownerId: {
       type: DataTypes.INTEGER,

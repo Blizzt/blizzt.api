@@ -4,6 +4,8 @@ import {gql} from 'apollo-server-express';
 export default gql`
   type Project {
     id: ID!
+    chainId: Int!
+    collectionAddress: String
     title: String
     description: String
     isPublic: Boolean!
@@ -55,13 +57,14 @@ export default gql`
     telegram: String
   }
    
-  input ProjectInput {
+  input EditProjectInput {
     title: String
     description: String
     isPublic: Boolean
     photoUrl: String
     document: String
     categoryId: Int
+    collectionAddress: String
     details: ProjectDetailsInput
   }
     
@@ -78,7 +81,7 @@ export default gql`
       photo: Upload!
     ): Project!
     
-    editProject(id: ID!, data: ProjectInput!): Project!
+    editProject(id: ID!, data: EditProjectInput!): Project!
    
   }
 `;

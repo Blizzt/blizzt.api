@@ -23,16 +23,12 @@ const nft = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    collectionAddress: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     IPFSAddress: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     metadata: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
     amount: {
@@ -53,6 +49,16 @@ const nft = (sequelize, DataTypes) => {
       as: 'project',
     });
   };
+
+  // Functions
+  NFT.exists = async (nftId, projectId) => {
+    return NFT.findOne({
+      where: {
+        nftId,
+        projectId
+      },
+    });
+  }
 
   return NFT;
 }

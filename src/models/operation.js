@@ -62,6 +62,14 @@ const operation = (sequelize, DataTypes) => {
     });
   }
 
+  Operation.findByIdAndType = async (id, operation) => {
+    return Operation.findAll({
+      where: {
+        id,
+        type: operation,
+      }
+    })
+  }
 
   return Operation;
 }

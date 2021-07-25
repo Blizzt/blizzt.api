@@ -9,32 +9,32 @@ export default gql`
 
   type NFT {
     id: Int!
-    ownerId: Int!
-    projectId: Int!
     type: NFTType!
     nftId: Int!
-    collectionAddress: String!
     IPFSAddress: String!
     metadata: String!
     amount: Int!
+    
+    forRent: [Operation]
+    forSale: [Operation]
     
     creator: User
     project: Project
   }
      
   extend type Query {
-    nft(collectionAddress: String!, nftId: Int!): NFT!
+    nft(projectId: ID!, nftId: Int!): NFT!
     nfts: [NFT!]
   }
   
   extend type Mutation {
     mintNFT(
       projectId: ID!
-      type: NFTType!
-      nftId: Int!,
-      collectionAddress: String!,
-      metadata: String!,
-      IPFSAddress: String!,
+      type: NFTType
+      nftId: Int!
+      collectionAddress: String!
+      metadata: String!
+      IPFSAddress: String!
       amount: Int!
     ): NFT!
     

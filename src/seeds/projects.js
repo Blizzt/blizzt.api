@@ -4,6 +4,7 @@ import models from '../models';
 const data = [
   {
     id: '50966076-310f-4f59-983f-b592f3b77fd3',
+    chainId: 4,
     ownerId: 1,
     categoryId: 1,
     isPublic: true,

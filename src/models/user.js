@@ -1,3 +1,6 @@
+// Dependencies
+import Moniker from 'moniker';
+
 // Types
 import {userRoles} from '../types/user';
 
@@ -23,7 +26,7 @@ const user = (sequelize, DataTypes) => {
       },
     },
     role: {
-    	type: DataTypes.ENUM,
+      type: DataTypes.ENUM,
       values: [
         userRoles.USER,
         userRoles.PARTNER,
@@ -36,6 +39,15 @@ const user = (sequelize, DataTypes) => {
 
   // Association
   User.associate = models => {};
+
+  User.beforeCreate = (user) => {
+    console.log('Insert: ', user);
+  }
+
+  User.addHook('beforeCreate', (user, options) => {
+    user.username = Moniker.choose();
+  });
+
 
   // Functions
   User.findById = async (id) => {
