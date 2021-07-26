@@ -38,16 +38,16 @@ const user = (sequelize, DataTypes) => {
   });
 
   // Association
-  User.associate = models => {};
-
-  User.beforeCreate = (user) => {
-    console.log('Insert: ', user);
-  }
+  User.associate = models => {
+    User.hasMany(models.NFT, {
+      foreignKey: 'ownerId',
+      as: 'nfts',
+    });
+  };
 
   User.addHook('beforeCreate', (user, options) => {
     user.username = Moniker.choose();
   });
-
 
   // Functions
   User.findById = async (id) => {

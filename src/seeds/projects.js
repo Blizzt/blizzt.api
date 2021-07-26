@@ -8,6 +8,7 @@ const data = [
     ownerId: 1,
     categoryId: 1,
     isPublic: true,
+    collectionAddress: '0xae2dd147A020a66705B4aecb3AD2FA7658b8B43C',
     title: 'Need for Speed: Heat',
     description: 'Need for Speed Heat is a racing game set in an open world environment called Palm City, a fictionalised version of the city Miami, Florida and its surrounding area.',
     photoUrl: 'https://i0.wp.com/wallpaperaccess.com/full/2529113.jpg',

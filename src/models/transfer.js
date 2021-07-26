@@ -1,19 +1,19 @@
-import {currencyTypes, operationTypes} from "../types/operation";
+import {currencyTypes, transferTypes} from "../types/transfer";
 
-const operation = (sequelize, DataTypes) => {
+const transfer = (sequelize, DataTypes) => {
   // Model Architecture
-  const Operation = sequelize.define('operation', {
+  const Transfer = sequelize.define('transfer', {
     type: {
       type: DataTypes.ENUM,
       values: [
-        operationTypes.BUY,
-        operationTypes.SELL,
-        operationTypes.RENT,
-        operationTypes.TRADE,
+        transferTypes.BUY,
+        transferTypes.SELL,
+        transferTypes.RENT,
+        transferTypes.TRADE,
       ],
       allowNull: false,
     },
-    refId: {
+    nftId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -45,33 +45,33 @@ const operation = (sequelize, DataTypes) => {
   });
 
   // Association
-  Operation.associate = models => {
-    Operation.belongsTo(models.NFT, {
-      foreignKey: 'refId',
+  Transfer.associate = models => {
+    Transfer.belongsTo(models.NFT, {
+      foreignKey: 'nftId',
       as: 'nft',
     });
   };
 
 
   // Functions
-  Operation.findById = async (id) => {
-    return Operation.findOne({
+  Transfer.findById = async (id) => {
+    return Transfer.findOne({
       where: {
         id,
       },
     });
   }
 
-  Operation.findByIdAndType = async (id, operation) => {
-    return Operation.findAll({
+  Transfer.findByIdAndType = async (id, type) => {
+    return Transfer.findAll({
       where: {
         id,
-        type: operation,
+        type,
       }
     })
   }
 
-  return Operation;
+  return Transfer;
 }
 
-export default operation;
+export default transfer;

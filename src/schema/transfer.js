@@ -2,15 +2,15 @@
 import {gql} from 'apollo-server-express';
 
 export default gql`
-  enum OperationType {
+  enum TransferType {
     buy
     sell
     trade
     rent
   }
   
-  type Operation {
-    type: OperationType!
+  type Transfer {
+    type: TransferType!
     from: String!
     to: String!
     quantity: Int!

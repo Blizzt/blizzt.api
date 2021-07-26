@@ -16,10 +16,11 @@ const sequelize = new Sequelize({
 const models = {
   User: sequelize.import('./user'),
   Project: sequelize.import('./project'),
+  ProjectDetail: sequelize.import('./project-detail'),
   Category: sequelize.import('./category'),
   NFT: sequelize.import('./nft'),
-  Operation: sequelize.import('./operation'),
-  ProjectDetail: sequelize.import('./project-detail'),
+  Transfer: sequelize.import('./transfer'),
+  Action: sequelize.import('./action'),
 };
 
 

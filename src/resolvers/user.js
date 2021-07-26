@@ -54,5 +54,19 @@ export default {
         },
       });
     },
+
+    inventory: async (user, args, {models}) => {
+      const inventory = await models.NFT.findAndCountAll({
+        where: {
+          ownerId: user.id,
+        },
+      });
+
+      return {
+        amount: inventory.count,
+        items: inventory.rows,
+      }
+    },
+
   },
 };

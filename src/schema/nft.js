@@ -14,11 +14,11 @@ export default gql`
     IPFSAddress: String!
     metadata: String!
     amount: Int!
+    acquired: Int!
     
-    forRent: [Operation]
-    forSale: [Operation]
+    forRent: [Action]
+    forSale: [Action]
     
-    creator: User
     project: Project
   }
      
@@ -39,12 +39,15 @@ export default gql`
     ): NFT!
     
     sellNFT(
-      id: Int!
+      nftId: Int!
+      collectionAddress: String!
       projectId: ID!
       amount: Int!
       price: String!
       isBundlePack: Boolean!
       currency: Currency!
+      message: String!
+      signature: String!
     ): NFT!
     
     buyNFT(

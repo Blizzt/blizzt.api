@@ -7,7 +7,7 @@ import nftResolvers from './nft';
 import userResolvers from './user';
 import projectResolvers from './project';
 import categoryResolvers from './category';
-import operationResolvers from './operation';
+import transferResolvers from './transfer';
 
 const customScalarResolver = {
   Date: GraphQLDateTime,
@@ -20,5 +20,5 @@ export default [
   userResolvers,
   projectResolvers,
   categoryResolvers,
-  operationResolvers
+  transferResolvers
 ];

@@ -1,7 +1,9 @@
+// Dependencies
+import {ApolloError} from "apollo-server-express";
+
 // Utils
 import {nftTypes} from "../types/nft";
-import {ApolloError} from "apollo-server-express";
-import {operationTypes} from "../types/operation";
+import {transferTypes} from "../types/transfer";
 
 export default {
   Query: {
@@ -20,8 +22,20 @@ export default {
   Mutation: {
     /**
      * @function mintNFT():
+     * @description Controller in charge of minting an NFT in the database.
+     * @param parent Contextual Info
+     * @param type Type of NFT. (nftTypes)
+     * @param projectId Id of the project associated with the NFT.
+     * @param nftId Id of the NFT within the blockchain
+     * @param collectionAddress Blockchain collection id
+     * @param metadata Metadata for off-chain caching
+     * @param IPFSAddress IPFS address to collect data on the blockchain.
+     * @param amount Amount of NFT to mint
+     * @param models Total models in architecture
+     * @param me Authenticated user making the call
+     * @returns {Promise<ApolloError|*>}
      */
-    mintNFT: async(
+    mintNFT: async (
       parent, {
         type = nftTypes.OBJECT,
         projectId,
@@ -62,20 +76,38 @@ export default {
         amount,
       });
     },
+
+    sellNFT: async (
+      parent, {
+        nftId,
+        collectionAddress,
+        projectId,
+        amount,
+        price,
+        isBundlePack,
+        currency,
+        message,
+        signature
+      },
+      {models, me},
+    ) => {
+
+
+    },
   },
 
   NFT: {
-    creator: async (nft, args, {models}) => {
-      return models.User.findById(nft.ownerId);
-    },
     project: async (nft, args, {models}) => {
       return models.Project.findById(nft.projectId);
     },
     forRent: async (nft, args,  {models}) => {
-      return models.Operation.findByIdAndType(nft.id, operationTypes.RENT);
+      return models.Action.findByIdAndType(nft.id, transferTypes.RENT);
     },
     forSale: async (nft, args,  {models}) => {
-      return models.Operation.findByIdAndType(nft.id, operationTypes.SELL);
+      return models.Action.findByIdAndType(nft.id, transferTypes.SELL);
+    },
+    acquired: async (nft, args,  {models, me}) => {
+      return nft.amount;
     },
   },
 };

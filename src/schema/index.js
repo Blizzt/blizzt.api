@@ -6,7 +6,8 @@ import nftSchema from './nft';
 import userSchema from './user';
 import projectSchema from './project';
 import categorySchema from './category';
-import operationSchema from './operation';
+import transferSchema from './transfer';
+import actionSchema from './action';
 
 const linkSchema = gql`
   scalar Date
@@ -48,5 +49,6 @@ export default [
   userSchema,
   projectSchema,
   categorySchema,
-  operationSchema
+  actionSchema,
+  transferSchema
 ];

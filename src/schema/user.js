@@ -2,6 +2,11 @@
 import {gql} from 'apollo-server-express';
 
 export default gql`
+  type UserInventory {
+    amount: Int
+    items: [NFT]
+  } 
+ 
   type User {
     id: Int!
     address: String!
@@ -10,6 +15,7 @@ export default gql`
     role: String!
     
     projects: [Project!]
+    inventory: UserInventory
   }
   
   type Token {
