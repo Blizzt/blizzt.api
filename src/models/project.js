@@ -81,10 +81,12 @@ const project = (sequelize, DataTypes) => {
       foreignKey: 'ownerId',
       as: 'creator',
     });
+
     Project.belongsTo(models.Category, {
       foreignKey: 'categoryId',
       as: 'category',
     });
+
     Project.hasMany(models.NFT, {
       foreignKey: 'projectId',
       as: 'nfts',
@@ -92,6 +94,14 @@ const project = (sequelize, DataTypes) => {
   };
 
   // Functions
+  Project.exists = async (projectId) => {
+    return Project.findOne({
+      where: {
+        projectId
+      },
+    });
+  }
+
   Project.findById = async (id) => {
     return Project.findOne({
       where: {

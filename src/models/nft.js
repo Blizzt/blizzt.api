@@ -1,16 +1,9 @@
 import {nftTypes} from "../types/nft";
+import Transfer from '../models/transfer';
 
 const nft = (sequelize, DataTypes) => {
   // Model Architecture
   const NFT = sequelize.define('nft', {
-    ownerId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    projectId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
     type: {
       type: DataTypes.ENUM,
       values: [
@@ -18,6 +11,14 @@ const nft = (sequelize, DataTypes) => {
         nftTypes.CHROME,
       ],
       defaultValue: nftTypes.OBJECT,
+    },
+    creatorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     nftId: {
       type: DataTypes.INTEGER,
@@ -31,7 +32,7 @@ const nft = (sequelize, DataTypes) => {
       type: DataTypes.TEXT('long'),
       allowNull: false,
     },
-    amount: {
+    mintedAmount: {
       type: DataTypes.INTEGER,
     },
   }, {
@@ -40,10 +41,12 @@ const nft = (sequelize, DataTypes) => {
 
   // Association
   NFT.associate = models => {
+
     NFT.belongsTo(models.User, {
-      foreignKey: 'ownerId',
-      as: 'owner',
+      foreignKey: 'creatorId',
+      as: 'creator',
     });
+
     NFT.belongsTo(models.Project, {
       foreignKey: 'projectId',
       as: 'project',

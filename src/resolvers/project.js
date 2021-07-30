@@ -128,6 +128,17 @@ export default {
   },
 
   Project: {
+    nftsCount: async (project, args, {models}) => {
+      const {count} = await models.NFT.findAndCountAll({
+        where: {
+          projectId: project.id,
+        },
+        raw: true
+      });
+
+      return count;
+    },
+
     category: async (project, args, {models}) => {
       return models.Category.findById(project.categoryId);
     },

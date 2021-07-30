@@ -1,4 +1,4 @@
-import {currencyTypes, transferStates, transferTypes} from "../types/transfer";
+import {transferStates, actionTypes, currencyTypesId} from "../types/transfer";
 
 const action = (sequelize, DataTypes) => {
   // Model Architecture
@@ -14,10 +14,10 @@ const action = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.ENUM,
       values: [
-        transferTypes.BUY,
-        transferTypes.SELL,
-        transferTypes.RENT,
-        transferTypes.TRADE,
+        actionTypes.BUY,
+        actionTypes.SELL,
+        actionTypes.RENT,
+        actionTypes.TRADE,
       ],
       allowNull: false,
     },
@@ -44,18 +44,18 @@ const action = (sequelize, DataTypes) => {
     currency: {
       type: DataTypes.ENUM,
       values: [
-        currencyTypes.BLZT,
-        currencyTypes.DAI,
-        currencyTypes.ETH,
-        currencyTypes.USDT,
+        currencyTypesId.BLZT,
+        currencyTypesId.DAI,
+        currencyTypesId.ETH,
+        currencyTypesId.USDT,
       ],
     },
     message: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
     signature: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
   });
@@ -88,11 +88,12 @@ const action = (sequelize, DataTypes) => {
     });
   }
 
-  Action.findByIdAndType = async (id, type) => {
+  Action.searchAvailable = async (nftId, projectId, type) => {
     return Action.findAll({
       where: {
-        id,
         type,
+        nftId,
+        projectId,
       }
     })
   }

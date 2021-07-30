@@ -1,46 +1,25 @@
-import {currencyTypes, transferTypes} from "../types/transfer";
-
 const transfer = (sequelize, DataTypes) => {
   // Model Architecture
   const Transfer = sequelize.define('transfer', {
-    type: {
-      type: DataTypes.ENUM,
-      values: [
-        transferTypes.BUY,
-        transferTypes.SELL,
-        transferTypes.RENT,
-        transferTypes.TRADE,
-      ],
-      allowNull: false,
-    },
     nftId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
     from: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     to: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    price: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    currency: {
-      type: DataTypes.ENUM,
-      values: [
-        currencyTypes.BLZT,
-        currencyTypes.DAI,
-        currencyTypes.ETH,
-        currencyTypes.USDT,
-      ],
     }
   });
 
@@ -49,6 +28,11 @@ const transfer = (sequelize, DataTypes) => {
     Transfer.belongsTo(models.NFT, {
       foreignKey: 'nftId',
       as: 'nft',
+    });
+
+    Transfer.belongsTo(models.Project, {
+      foreignKey: 'projectId',
+      as: 'project',
     });
   };
 
@@ -59,6 +43,15 @@ const transfer = (sequelize, DataTypes) => {
       where: {
         id,
       },
+    });
+  }
+
+  Transfer.sendTo = async (nftId, from = 'blizzt.io', to, quantity) => {
+    return Transfer.create({
+      nftId,
+      from,
+      to,
+      quantity,
     });
   }
 

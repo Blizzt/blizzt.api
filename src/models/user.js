@@ -3,6 +3,8 @@ import Moniker from 'moniker';
 
 // Types
 import {userRoles} from '../types/user';
+import sequelize from "sequelize";
+import {transferStates} from "../types/transfer";
 
 const user = (sequelize, DataTypes) => {
   // Model Architecture
@@ -40,7 +42,7 @@ const user = (sequelize, DataTypes) => {
   // Association
   User.associate = models => {
     User.hasMany(models.NFT, {
-      foreignKey: 'ownerId',
+      foreignKey: 'creatorId',
       as: 'nfts',
     });
   };
@@ -69,4 +71,69 @@ const user = (sequelize, DataTypes) => {
   return User;
 }
 
+export const getAvailableNFTs = async (models, userId, nftId, projectId) => {
+
+  console.log({userId})
+
+  // Get Transactions
+  let received = await models.Transfer.findAll({
+    attributes: [
+      [sequelize.fn('sum', sequelize.col('quantity')), 'received'],
+    ],
+    where: {
+      to: userId,
+      nftId,
+      projectId,
+    },
+    raw: true
+  });
+
+  let sent = await models.Transfer.findAll({
+    attributes: [
+      [sequelize.fn('sum', sequelize.col('quantity')), 'sent'],
+    ],
+    where: {
+      from: userId,
+      nftId,
+      projectId
+    },
+    raw: true
+  });
+
+  [{sent}] = sent;
+  [{received}] = received;
+
+  sent = sent ? sent : 0;
+  received = received ? received : 0;
+
+  sent = parseInt(sent, 0) ?? 0;
+  received = parseInt(received, 0) ?? 0;
+
+  let acquired = received - sent;
+
+  // Get Actions
+  let offers = await models.Action.findAll({
+    attributes: [
+      [sequelize.fn('sum', sequelize.col('quantity')), 'offers'],
+    ],
+    where: {
+      state: transferStates.ACTIVE,
+      userId: userId,
+      nftId: nftId,
+      projectId: projectId,
+    },
+    raw: true
+  }) ?? 0;
+
+  [{offers}] = offers;
+
+  offers = offers ? offers : 0;
+  offers = parseInt(offers, 0) ?? 0;
+
+  acquired = acquired - offers;
+
+  return Number(acquired);
+}
+
 export default user;
+

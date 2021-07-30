@@ -1,9 +1,11 @@
 // Dependencies
+import sequelize from 'sequelize';
 import {ApolloError} from "apollo-server-express";
 
-// Utils
+// Types
 import {nftTypes} from "../types/nft";
-import {transferTypes} from "../types/transfer";
+import {actionTypes} from "../types/transfer";
+import {getAvailableNFTs} from "../models/user";
 
 export default {
   Query: {
@@ -66,33 +68,63 @@ export default {
       });
 
       // We create the project and return it to the client.
-      return await models.NFT.create({
-        ownerId: me.id,
-        projectId,
-        type: nftTypes.OBJECT,
+      const nft = await models.NFT.create({
         nftId,
-        IPFSAddress,
         metadata,
-        amount,
+        projectId,
+        IPFSAddress,
+        creatorId: me.id,
+        mintedAmount: amount,
+        type: nftTypes.OBJECT,
       });
+
+      if (nft) {
+        await models.Transfer.sendTo(nft.nftId, null, nft.creatorId, nft.mintedAmount);
+      }
     },
 
     sellNFT: async (
       parent, {
         nftId,
-        collectionAddress,
         projectId,
         amount,
         price,
         isBundlePack,
         currency,
         message,
-        signature
+        signature,
       },
       {models, me},
     ) => {
+      // Get the current project.
+      const project = await models.NFT.exists(nftId, projectId);
+      if (!project) {
+        return new ApolloError(`No existe el proyecto ID ${projectId}`, '20000');
+      }
 
+      // Get the NFT in the database
+      const nft = await models.NFT.exists(nftId, projectId);
+      if (!nft) {
+        return new ApolloError(`Este proyecto no tiene un NFT id ${nftId}`, '20000')
+      }
 
+      const nftAvailable = await getAvailableNFTs(models, me.id, nftId, projectId);
+
+      if (amount > nftAvailable) {
+        return new ApolloError(`No tienes suficientes NFTS para vender, actualmente tienes ${nftAvailable}`, '20000');
+      }
+
+      return models.Action.create({
+        type: actionTypes.SELL,
+        nftId,
+        projectId,
+        userId: me.id,
+        quantity: amount,
+        price,
+        currency,
+        message,
+        signature
+      });
     },
   },
 
@@ -100,14 +132,17 @@ export default {
     project: async (nft, args, {models}) => {
       return models.Project.findById(nft.projectId);
     },
+
     forRent: async (nft, args,  {models}) => {
-      return models.Action.findByIdAndType(nft.id, transferTypes.RENT);
+      return models.Action.searchAvailable(nft.nftId, nft.projectId, actionTypes.RENT);
     },
+
     forSale: async (nft, args,  {models}) => {
-      return models.Action.findByIdAndType(nft.id, transferTypes.SELL);
+      return models.Action.searchAvailable(nft.nftId, nft.projectId, actionTypes.SELL);
     },
+
     acquired: async (nft, args,  {models, me}) => {
-      return nft.amount;
+      return getAvailableNFTs(models, me.id, nft.nftId, nft.projectId);
     },
   },
 };

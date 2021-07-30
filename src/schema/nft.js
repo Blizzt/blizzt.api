@@ -13,7 +13,7 @@ export default gql`
     nftId: Int!
     IPFSAddress: String!
     metadata: String!
-    amount: Int!
+    mintedAmount: Int!
     acquired: Int!
     
     forRent: [Action]
@@ -40,7 +40,6 @@ export default gql`
     
     sellNFT(
       nftId: Int!
-      collectionAddress: String!
       projectId: ID!
       amount: Int!
       price: String!
@@ -48,7 +47,7 @@ export default gql`
       currency: Currency!
       message: String!
       signature: String!
-    ): NFT!
+    ): Action!
     
     buyNFT(
       id: Int!

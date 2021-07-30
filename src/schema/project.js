@@ -16,6 +16,7 @@ export default gql`
     creator: User!
     category: Category!
     nfts: [NFT]
+    nftsCount: Int!
     details: ProjectDetails
   }
   

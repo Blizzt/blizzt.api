@@ -1,15 +1,22 @@
-export const transferTypes = {
+export const actionTypes = {
   BUY: 'buy',
   SELL: 'sell',
   TRADE: 'trade',
   RENT: 'rent',
 };
 
+export const currencyTypesId = {
+  BLZT: 'BLZT',
+  ETH: 'ETH',
+  DAI: 'DAI',
+  USDT: 'USDT',
+}
+
 export const currencyTypes = {
-  BLZT: '0x0000000000000000000000000000000000000003',
-  ETH: '0x0000000000000000000000000000000000000000',
-  DAI: '0x0000000000000000000000000000000000000001',
-  USDT: '0x626fdbfF6D1B75237121415b8eD178543AF0981c'
+  [currencyTypesId.BLZT]: '0x0000000000000000000000000000000000000003',
+  [currencyTypesId.ETH]: '0x0000000000000000000000000000000000000000',
+  [currencyTypesId.DAI]: '0x0000000000000000000000000000000000000001',
+  [currencyTypesId.USDT]: '0x626fdbfF6D1B75237121415b8eD178543AF0981c'
 }
 
 export const transferStates = {
