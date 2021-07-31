@@ -22,6 +22,7 @@ const models = {
   Transfer: sequelize.import('./transfer'),
   Offer: sequelize.import('./offer'),
   Rent: sequelize.import('./rent'),
+  Currency: sequelize.import('./currency'),
 };
 
 

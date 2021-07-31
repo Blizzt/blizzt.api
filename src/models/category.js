@@ -1,4 +1,4 @@
-import {categoryTypes} from "../types/category";
+import {categoryTypes} from '../types/category';
 
 const category = (sequelize, DataTypes) => {
   // Model Architecture
@@ -13,7 +13,7 @@ const category = (sequelize, DataTypes) => {
         categoryTypes.GAME,
         categoryTypes.MOVIE,
         categoryTypes.SONG,
-        categoryTypes.SOFTWARE
+        categoryTypes.SOFTWARE,
       ],
       defaultValue: categoryTypes.GAME,
     },
@@ -21,6 +21,7 @@ const category = (sequelize, DataTypes) => {
 
   // Association
   Category.associate = models => {};
+
 
   // Functions
   Category.findById = async (id) => {

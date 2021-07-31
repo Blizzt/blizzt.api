@@ -6,27 +6,54 @@ export default {
   },
 
   Offer: {
-    nft: async (action, args, {models}) => {
+    fiat: async ({currencyId, price}, args, {models}) => {
+      const {
+        usd,
+        eur,
+        aed,
+        cny,
+        jpy,
+        rub,
+        gbp,
+      } = await models.Currency.findById(currencyId);
+      const currencies = {usd, eur, aed, cny, jpy, rub, gbp};
+      return Object.keys(currencies).reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: (price * currencies[key]).toFixed(2),
+        }
+      }, {});
+    },
+
+    nft: async (offer, args, {models}) => {
       return models.NFT.findOne({
         where: {
-          projectId: action.projectId,
-          nftId: action.nftId,
+          projectId: offer.projectId,
+          nftId: offer.nftId,
         },
       })
     },
 
-    project: async (action, args, {models}) => {
+    currency: async (offer, args, {models}) => {
+      return models.Currency.findOne({
+        where: {
+          id: offer.currencyId,
+        },
+      })
+    },
+
+    project: async (offer, args, {models}) => {
       return models.Project.findOne({
         where: {
-          id: action.projectId,
+          id: offer.projectId,
         },
       })
     },
 
-    user: async (action, args, {models}) => {
+    user: async (offer, args, {models}) => {
       return models.User.findOne({
         where: {
-          id: action.userId,
+          id: offer.userId,
         },
       })
     },

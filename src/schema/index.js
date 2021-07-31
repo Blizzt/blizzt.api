@@ -8,6 +8,7 @@ import projectSchema from './project';
 import categorySchema from './category';
 import transferSchema from './transfer';
 import offerSchema from './offer';
+import currencySchema from './currency';
 
 const linkSchema = gql`
   scalar Date
@@ -17,15 +18,7 @@ const linkSchema = gql`
     ASC
     DESC
   }
-  
-  # List of all supported currencies
-  enum Currency {
-    BLZT
-    DAI
-    ETH
-    USDT
-  }
-  
+    
   # Defines the type of structuring for the files.
   type File {
     filename: String!
@@ -53,5 +46,6 @@ export default [
   projectSchema,
   categorySchema,
   offerSchema,
-  transferSchema
+  transferSchema,
+  currencySchema,
 ];

@@ -6,7 +6,7 @@ export default gql`
   input OfferInput {
     amount: Int!
     price: String!
-    currency: Currency!
+    currencyId: String!
     until: Date
     isBundlePack: Boolean
   }
@@ -32,10 +32,11 @@ export default gql`
     createdAt: Date!
     type: OfferType!
     state: OfferState!
-    currency: Currency!
     isBundlePack: Boolean
     maxExpirationDate: Date
     
+    fiat: Fiat
+    currency: Currency
     nft: NFT!
     user: User!
     project: Project!

@@ -91,7 +91,7 @@ export default {
      * @param price Offer price
      * @param amount NFTS quantity
      * @param message (Signing): Encrypted message in metamask to validate the transaction.
-     * @param currency Unit with which the sale is marketed.
+     * @param currencyId Unit with which the sale is marketed.
      * @param projectId Associated Project ID
      * @param signature (Signing): Signature fingerprint in metamask.
      * @param until Determine until the maximum period of time to rent the NFT.
@@ -106,7 +106,7 @@ export default {
         offer: {
           price,
           amount,
-          currency,
+          currencyId,
           until,
         },
         signature: {
@@ -142,7 +142,7 @@ export default {
         nftId,
         price,
         message,
-        currency,
+        currencyId,
         projectId,
         fingerprint,
         maxExpirationDate: until,
@@ -175,7 +175,7 @@ export default {
         offer: {
           price,
           amount,
-          currency,
+          currencyId,
           isBundlePack,
         },
         signature: {
@@ -211,7 +211,7 @@ export default {
         nftId,
         price,
         message,
-        currency,
+        currencyId,
         projectId,
         fingerprint,
         isBundlePack,
@@ -375,12 +375,23 @@ export default {
       return models.Project.findById(nft.projectId);
     },
 
+
+    latestOffers: async (nft, args,  {models, me}) => {
+      const forRent = await models.Offer.findLatestAvailable(me ? me.id : null, nft.nftId, nft.projectId, offerTypesId.RENT);
+      const forSale = await models.Offer.findLatestAvailable(me ? me.id: null, nft.nftId, nft.projectId, offerTypesId.SELL);
+
+      return {
+        forRent,
+        forSale,
+      }
+    },
+
     forRent: async (nft, args,  {models}) => {
-      return models.Offer.searchAvailable(nft.nftId, nft.projectId, offerTypesId.RENT);
+      return models.Offer.findAvailable(nft.nftId, nft.projectId, offerTypesId.RENT);
     },
 
     forSale: async (nft, args,  {models}) => {
-      return models.Offer.searchAvailable(nft.nftId, nft.projectId, offerTypesId.SELL);
+      return models.Offer.findAvailable(nft.nftId, nft.projectId, offerTypesId.SELL);
     },
 
     acquired: async (nft, args,  {models, me}) => {

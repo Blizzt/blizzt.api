@@ -1,3 +1,6 @@
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
+
 import {offerStatesId, offerTypesId, currencyTypesId} from '../types/transfer';
 
 const offer = (sequelize, DataTypes) => {
@@ -33,6 +36,10 @@ const offer = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    currencyId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -45,15 +52,6 @@ const offer = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    currency: {
-      type: DataTypes.ENUM,
-      values: [
-        currencyTypesId.BLZT,
-        currencyTypesId.DAI,
-        currencyTypesId.ETH,
-        currencyTypesId.USDT,
-      ],
     },
     maxExpirationDate: {
       type: DataTypes.DATE,
@@ -88,6 +86,11 @@ const offer = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user',
     });
+
+    Offer.belongsTo(models.Currency, {
+      foreignKey: 'currencyId',
+      as: 'currency',
+    });
   };
 
 
@@ -100,14 +103,34 @@ const offer = (sequelize, DataTypes) => {
     });
   }
 
-  Offer.searchAvailable = async (nftId, projectId, type) => {
+  Offer.findAvailable = async (nftId, projectId, type) => {
     return Offer.findAll({
       where: {
+        state: offerStatesId.ACTIVE,
         type,
         nftId,
         projectId,
       },
+      order: [['id', 'DESC']],
     })
+  }
+
+  Offer.findLatestAvailable = async (userToIgnore = null, nftId, projectId, type) => {
+    const find = await Offer.findAll({
+      limit: 1,
+      where: {
+        userId: {
+          [Op.not]: userToIgnore,
+        },
+        state: offerStatesId.ACTIVE,
+        type,
+        nftId,
+        projectId,
+      },
+      order: [['id', 'DESC']],
+    });
+
+    return find.length ? find[0] : null;
   }
 
   Offer.edit = async (id, data = {}) => {

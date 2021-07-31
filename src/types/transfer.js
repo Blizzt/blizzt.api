@@ -6,10 +6,10 @@ export const offerTypesId = {
 };
 
 export const currencyTypesId = {
-  BLZT: 'BLZT',
-  ETH: 'ETH',
-  DAI: 'DAI',
-  USDT: 'USDT',
+  BLZT: 'blzt',
+  ETH: 'eth',
+  DAI: 'dai',
+  USDT: 'usdt',
 }
 
 export const currencyTypes = {

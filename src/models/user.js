@@ -45,6 +45,10 @@ const user = (sequelize, DataTypes) => {
       foreignKey: 'creatorId',
       as: 'nfts',
     });
+    User.hasMany(models.Offer, {
+      foreignKey: 'userId',
+      as: 'offers',
+    });
   };
 
   User.addHook('beforeCreate', (user, options) => {

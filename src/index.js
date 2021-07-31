@@ -26,6 +26,9 @@ import seeds from './seeds';
 import Console from './utils/bash/console';
 import {getMe} from './utils/auth/token';
 
+// Services
+import activateCurrencySynchronization from './services/coingecko';
+
 // Express Service
 const app = express();
 
@@ -68,7 +71,7 @@ const port = process.env.PORT || 8000;
 
 apollo.installSubscriptionHandlers(server);
 
-const force = true;
+const force = false;
 
 sequelize.sync({force})
   .then(() => {
@@ -77,6 +80,9 @@ sequelize.sync({force})
   .then(() => {
     server.listen({port}, () => {
       Console.warn(`Application Listen on http://localhost:${port}/graphql`);
+
+      // Synchronizations
+      activateCurrencySynchronization('*/59 * * * * *')
     });
   }).catch(err => {
     throw err;
