@@ -1,9 +1,9 @@
 // Dependencies
-import {uuid} from "uuidv4";
-import {ApolloError} from "apollo-server-express";
+import {uuid} from 'uuidv4';
+import {ApolloError} from 'apollo-server-express';
 
 // Services
-import {uploadFileToS3} from "../services/aws/s3";
+import {uploadFileToS3} from '../services/aws/s3';
 
 const injectAssoc = models => [
   {
@@ -15,13 +15,13 @@ const injectAssoc = models => [
   }, {
     model: models.Category,
     as: 'category',
-  }
+  },
 ];
 
 export default {
   Query: {
     projects: async (parent, {
-      order = 'DESC'
+      order = 'DESC',
     }, {models}) => {
 
       return models.Project.findAll({
@@ -35,15 +35,15 @@ export default {
       });
     },
     project: async (parent, {
-      id
+      id,
     }, {models}) => {
       return models.Project.findOne({
         where: {
           id,
         },
-        include: injectAssoc(models)
+        include: injectAssoc(models),
       });
-    }
+    },
   },
   Mutation: {
     /**
@@ -133,7 +133,7 @@ export default {
         where: {
           projectId: project.id,
         },
-        raw: true
+        raw: true,
       });
 
       return count;

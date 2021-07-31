@@ -20,7 +20,8 @@ const models = {
   Category: sequelize.import('./category'),
   NFT: sequelize.import('./nft'),
   Transfer: sequelize.import('./transfer'),
-  Action: sequelize.import('./action'),
+  Offer: sequelize.import('./offer'),
+  Rent: sequelize.import('./rent'),
 };
 
 

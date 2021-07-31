@@ -3,8 +3,8 @@ import Moniker from 'moniker';
 
 // Types
 import {userRoles} from '../types/user';
-import sequelize from "sequelize";
-import {transferStates} from "../types/transfer";
+import sequelize from 'sequelize';
+import {offerStatesId} from '../types/transfer';
 
 const user = (sequelize, DataTypes) => {
   // Model Architecture
@@ -64,7 +64,7 @@ const user = (sequelize, DataTypes) => {
     return User.findOne({
       where: {
         address: wallet,
-      }
+      },
     })
   }
 
@@ -72,9 +72,6 @@ const user = (sequelize, DataTypes) => {
 }
 
 export const getAvailableNFTs = async (models, userId, nftId, projectId) => {
-
-  console.log({userId})
-
   // Get Transactions
   let received = await models.Transfer.findAll({
     attributes: [
@@ -85,7 +82,7 @@ export const getAvailableNFTs = async (models, userId, nftId, projectId) => {
       nftId,
       projectId,
     },
-    raw: true
+    raw: true,
   });
 
   let sent = await models.Transfer.findAll({
@@ -95,9 +92,9 @@ export const getAvailableNFTs = async (models, userId, nftId, projectId) => {
     where: {
       from: userId,
       nftId,
-      projectId
+      projectId,
     },
-    raw: true
+    raw: true,
   });
 
   [{sent}] = sent;
@@ -112,17 +109,17 @@ export const getAvailableNFTs = async (models, userId, nftId, projectId) => {
   let acquired = received - sent;
 
   // Get Actions
-  let offers = await models.Action.findAll({
+  let offers = await models.Offer.findAll({
     attributes: [
       [sequelize.fn('sum', sequelize.col('quantity')), 'offers'],
     ],
     where: {
-      state: transferStates.ACTIVE,
-      userId: userId,
-      nftId: nftId,
-      projectId: projectId,
+      state: offerStatesId.ACTIVE,
+      userId,
+      nftId,
+      projectId,
     },
-    raw: true
+    raw: true,
   }) ?? 0;
 
   [{offers}] = offers;

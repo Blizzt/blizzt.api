@@ -75,9 +75,9 @@ sequelize.sync({force})
     return force ? seeds() : true;
   })
   .then(() => {
-  server.listen({port}, () => {
-    Console.warn(`Application Listen on http://localhost:${port}/graphql`);
+    server.listen({port}, () => {
+      Console.warn(`Application Listen on http://localhost:${port}/graphql`);
+    });
+  }).catch(err => {
+    throw err;
   });
-}).catch(err => {
-  throw err;
-});

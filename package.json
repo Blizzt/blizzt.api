@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/s3-request-presigner": "^3.22.0",
+    "@graphql-tools/graphql-file-loader": "^7.0.1",
+    "@graphql-tools/load": "^7.0.1",
     "apollo-server": "^2.19.0",
     "apollo-server-express": "^2.19.0",
     "aws-sdk": "^2.951.0",

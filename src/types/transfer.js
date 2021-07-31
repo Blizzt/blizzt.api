@@ -1,4 +1,4 @@
-export const actionTypes = {
+export const offerTypesId = {
   BUY: 'buy',
   SELL: 'sell',
   TRADE: 'trade',
@@ -16,10 +16,10 @@ export const currencyTypes = {
   [currencyTypesId.BLZT]: '0x0000000000000000000000000000000000000003',
   [currencyTypesId.ETH]: '0x0000000000000000000000000000000000000000',
   [currencyTypesId.DAI]: '0x0000000000000000000000000000000000000001',
-  [currencyTypesId.USDT]: '0x626fdbfF6D1B75237121415b8eD178543AF0981c'
+  [currencyTypesId.USDT]: '0x626fdbfF6D1B75237121415b8eD178543AF0981c',
 }
 
-export const transferStates = {
+export const offerStatesId = {
   ACTIVE: 'active',
-  INACTIVE: 'inactive'
+  INACTIVE: 'inactive',
 }

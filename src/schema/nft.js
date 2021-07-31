@@ -2,68 +2,78 @@
 import {gql} from 'apollo-server-express';
 
 export default gql`
+  # Enumerator by object types.
   enum NFTType {
     object
     chrome
   }
+  
+  # Object of Offers
+  type Offers {
+    forRent: Offer
+    forSale: Offer
+  }
 
   type NFT {
-    id: Int!
-    type: NFTType!
     nftId: Int!
-    IPFSAddress: String!
+    type: NFTType!
     metadata: String!
     mintedAmount: Int!
+    IPFSAddress: String!
+    
+    ## Authentication ##
     acquired: Int!
     
-    forRent: [Action]
-    forSale: [Action]
+    ## Offers ##
+    forRent: [Offer]
+    forSale: [Offer]
+    latestOffers: Offers
     
+    ## Details ##
     project: Project
   }
      
   extend type Query {
+  
+    # Obtain data from a specific NFT.
     nft(projectId: ID!, nftId: Int!): NFT!
+    
+    # List all existing NFTs.
     nfts: [NFT!]
   }
   
   extend type Mutation {
+    # Function that is responsible for mint NFT.
     mintNFT(
-      projectId: ID!
-      type: NFTType
       nftId: Int!
-      collectionAddress: String!
+      amount: Int!
+      type: NFTType
+      projectId: ID!
       metadata: String!
       IPFSAddress: String!
-      amount: Int!
+      collectionAddress: String!
     ): NFT!
     
-    sellNFT(
+    # Responsible for adding a sale offer.
+    putOnSaleNFT(
       nftId: Int!
       projectId: ID!
-      amount: Int!
-      price: String!
-      isBundlePack: Boolean!
-      currency: Currency!
-      message: String!
-      signature: String!
-    ): Action!
+      offer: OfferInput!      
+      signature: UserSignatureInput!
+    ): Offer!
     
-    buyNFT(
-      id: Int!
+    # Responsible for adding a rent offer.
+    putOnRentNFT(
+      nftId: Int!
       projectId: ID!
-      amount: Int!
-      price: String!
-      currency: Currency!
-    ): NFT!
-        
-    rentNFT(
-      id: Int!
-      projectId: ID!
-      amount: Int!
-      price: String!
-      currency: Currency!
-      maxExpirationDate: Date!
-    ): NFT!
+      offer: OfferInput!
+      signature: UserSignatureInput!
+    ): Offer!
+    
+    # Responsible for executing purchase of offer.
+    buyNFT(offerId: Int!, amount: Int!): Offer!
+
+    # Responsible for executing renting of offer.
+    rentNFT(offerId: Int!, amount: Int!, until: Date!): Offer!
   }
 `;

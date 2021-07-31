@@ -5,7 +5,7 @@ export default {
     }, {models}) => {
       return models.Category.findAll({
         where: type ? {
-          type
+          type,
         } : {},
         order: [
           ['id', 'ASC'],
@@ -14,6 +14,7 @@ export default {
     },
     category: async (parent, {
       id,
-    }, {models}) => models.Category.findById(id)
+    }, {models}) => models.Category.findById(id),
   },
 };
+

@@ -1,23 +1,23 @@
-import {transferStates, actionTypes, currencyTypesId} from "../types/transfer";
+import {offerStatesId, offerTypesId, currencyTypesId} from '../types/transfer';
 
-const action = (sequelize, DataTypes) => {
+const offer = (sequelize, DataTypes) => {
   // Model Architecture
-  const Action = sequelize.define('action', {
+  const Offer = sequelize.define('offer', {
     state: {
       type: DataTypes.ENUM,
       values: [
-        transferStates.ACTIVE,
-        transferStates.INACTIVE
+        offerStatesId.ACTIVE,
+        offerStatesId.INACTIVE,
       ],
-      defaultValue: transferStates.ACTIVE,
+      defaultValue: offerStatesId.ACTIVE,
     },
     type: {
       type: DataTypes.ENUM,
       values: [
-        actionTypes.BUY,
-        actionTypes.SELL,
-        actionTypes.RENT,
-        actionTypes.TRADE,
+        offerTypesId.BUY,
+        offerTypesId.SELL,
+        offerTypesId.RENT,
+        offerTypesId.TRADE,
       ],
       allowNull: false,
     },
@@ -35,7 +35,12 @@ const action = (sequelize, DataTypes) => {
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+    },
+    isBundlePack: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     price: {
       type: DataTypes.STRING,
@@ -50,29 +55,36 @@ const action = (sequelize, DataTypes) => {
         currencyTypesId.USDT,
       ],
     },
+    maxExpirationDate: {
+      type: DataTypes.DATE,
+      defaultValue: null,
+      allowNull: true,
+    },
     message: {
       type: DataTypes.TEXT('long'),
       allowNull: false,
     },
-    signature: {
+    fingerprint: {
       type: DataTypes.TEXT('long'),
       allowNull: false,
     },
   });
 
   // Association
-  Action.associate = models => {
-    Action.belongsTo(models.NFT, {
+  Offer.associate = models => {
+    Offer.hasMany(models.Transfer);
+
+    Offer.belongsTo(models.NFT, {
       foreignKey: 'nftId',
       as: 'nft',
     });
 
-    Action.belongsTo(models.Project, {
+    Offer.belongsTo(models.Project, {
       foreignKey: 'projectId',
       as: 'project',
     });
 
-    Action.belongsTo(models.User, {
+    Offer.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
@@ -80,25 +92,36 @@ const action = (sequelize, DataTypes) => {
 
 
   // Functions
-  Action.findById = async (id) => {
-    return Action.findOne({
+  Offer.findById = async (id) => {
+    return Offer.findOne({
       where: {
         id,
       },
     });
   }
 
-  Action.searchAvailable = async (nftId, projectId, type) => {
-    return Action.findAll({
+  Offer.searchAvailable = async (nftId, projectId, type) => {
+    return Offer.findAll({
       where: {
         type,
         nftId,
         projectId,
-      }
+      },
     })
   }
 
-  return Action;
+  Offer.edit = async (id, data = {}) => {
+    const offer = await Offer.update(data, {
+      where: {
+        id,
+      },
+      returning: true,
+      plain: true,
+    })
+    return offer[1];
+  };
+
+  return Offer;
 }
 
-export default action;
+export default offer;

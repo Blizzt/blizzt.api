@@ -1,4 +1,4 @@
-import {markdownDefault, projectTypes, sectorTypes} from "../types/project";
+import {markdownDefault, projectTypes, sectorTypes} from '../types/project';
 
 const project = (sequelize, DataTypes) => {
   // Model Architecture
@@ -32,7 +32,7 @@ const project = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       values: [
         projectTypes.CAMPAIGN,
-        projectTypes.PRODUCT
+        projectTypes.PRODUCT,
       ],
       allowNull: false,
       defaultValue: projectTypes.CAMPAIGN,
@@ -54,14 +54,14 @@ const project = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         max: 128,
-      }
+      },
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         max: 300,
-      }
+      },
     },
     photoUrl: {
       type: DataTypes.STRING,
@@ -94,14 +94,6 @@ const project = (sequelize, DataTypes) => {
   };
 
   // Functions
-  Project.exists = async (projectId) => {
-    return Project.findOne({
-      where: {
-        projectId
-      },
-    });
-  }
-
   Project.findById = async (id) => {
     return Project.findOne({
       where: {
@@ -115,7 +107,7 @@ const project = (sequelize, DataTypes) => {
       where: {
         id,
         ownerId,
-      }
+      },
     });
   };
 

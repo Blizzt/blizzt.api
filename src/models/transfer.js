@@ -17,10 +17,14 @@ const transfer = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    price: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
 
   // Association
@@ -46,11 +50,13 @@ const transfer = (sequelize, DataTypes) => {
     });
   }
 
-  Transfer.sendTo = async (nftId, from = 'blizzt.io', to, quantity) => {
+  Transfer.sendTo = async (nftId, projectId, from, to, price, quantity) => {
     return Transfer.create({
       nftId,
+      projectId,
       from,
       to,
+      price,
       quantity,
     });
   }
@@ -60,7 +66,7 @@ const transfer = (sequelize, DataTypes) => {
       where: {
         id,
         type,
-      }
+      },
     })
   }
 

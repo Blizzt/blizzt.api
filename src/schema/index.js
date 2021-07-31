@@ -7,16 +7,18 @@ import userSchema from './user';
 import projectSchema from './project';
 import categorySchema from './category';
 import transferSchema from './transfer';
-import actionSchema from './action';
+import offerSchema from './offer';
 
 const linkSchema = gql`
   scalar Date
   
+  # List the type of order the lists can have.
   enum Sort {
     ASC
     DESC
   }
   
+  # List of all supported currencies
   enum Currency {
     BLZT
     DAI
@@ -24,6 +26,7 @@ const linkSchema = gql`
     USDT
   }
   
+  # Defines the type of structuring for the files.
   type File {
     filename: String!
     mimetype: String!
@@ -49,6 +52,6 @@ export default [
   userSchema,
   projectSchema,
   categorySchema,
-  actionSchema,
+  offerSchema,
   transferSchema
 ];

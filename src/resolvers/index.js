@@ -8,7 +8,7 @@ import userResolvers from './user';
 import projectResolvers from './project';
 import categoryResolvers from './category';
 import transferResolvers from './transfer';
-import actionResolvers from './action';
+import offerResolvers from './offer';
 
 const customScalarResolver = {
   Date: GraphQLDateTime,
@@ -22,5 +22,5 @@ export default [
   projectResolvers,
   categoryResolvers,
   transferResolvers,
-  actionResolvers,
+  offerResolvers,
 ];

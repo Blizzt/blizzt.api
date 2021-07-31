@@ -2,11 +2,17 @@
 import {gql} from 'apollo-server-express';
 
 export default gql`
+  ### Inputs ###
+  input UserSignatureInput {
+    message: String!
+    fingerprint: String!
+  }
+  
   type UserInventory {
     amount: Int
     items: [NFT]
   } 
- 
+  
   type User {
     id: Int!
     address: String!

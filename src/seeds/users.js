@@ -1,11 +1,12 @@
 // Dependencies
 import models from '../models';
-import {userRoles} from "../types/user";
+import {userRoles} from '../types/user';
+
 
 const data = [
   {
-    address: '000000000000000000000000000000000000000000',
-    username: 'Blizzt Holders',
+    address: '0x0000000000000000000000000000000000000000',
+    username: 'Blizzt.io',
     photoUrl: 'https://64.media.tumblr.com/24be07dd685c85a2a276c6aefa3be4c7/f49411532aabb1b5-a1/s250x400/fd776438744e7f14d49ddebb316af6ed618ec7a0.png',
     role: userRoles.ADMINISTRATOR,
   },

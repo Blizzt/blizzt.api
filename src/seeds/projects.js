@@ -5,7 +5,7 @@ const data = [
   {
     id: '50966076-310f-4f59-983f-b592f3b77fd3',
     chainId: 4,
-    ownerId: 1,
+    ownerId: 2,
     categoryId: 1,
     isPublic: true,
     collectionAddress: '0xae2dd147A020a66705B4aecb3AD2FA7658b8B43C',
@@ -17,8 +17,8 @@ const data = [
 
 const details = [
   {
-    id: '50966076-310f-4f59-983f-b592f3b77fd3'
-  }
+    id: '50966076-310f-4f59-983f-b592f3b77fd3',
+  },
 ]
 
 
