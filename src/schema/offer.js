@@ -34,7 +34,9 @@ export default gql`
     state: OfferState!
     isBundlePack: Boolean
     maxExpirationDate: Date
-    
+    message: String!
+    fingerprint: String!
+
     fiat: Fiat
     currency: Currency
     nft: NFT!
@@ -43,6 +45,6 @@ export default gql`
   }
 
   extend type Query {
-    offer: Offer
+    offer(id: Int!): Offer
   }
 `;

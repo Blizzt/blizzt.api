@@ -7,7 +7,7 @@ export default gql`
     message: String!
     fingerprint: String!
   }
-  
+      
   type UserInventory {
     amount: Int
     items: [NFT]

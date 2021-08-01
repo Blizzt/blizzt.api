@@ -112,7 +112,7 @@ const offer = (sequelize, DataTypes) => {
         projectId,
       },
       order: [['id', 'DESC']],
-    })
+    });
   }
 
   Offer.findLatestAvailable = async (userToIgnore = null, nftId, projectId, type) => {
