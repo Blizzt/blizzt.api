@@ -49,9 +49,9 @@ export default {
       },
       {models, me},
     ) => {
-      const isTheOwnerOfTheProject = await models.Project.findByIdAndOwner(projectId, me.id);
+      const project = await models.Project.findByIdAndOwner(projectId, me.id);
 
-      if (!isTheOwnerOfTheProject) {
+      if (!project) {
         return new ApolloError('Only the project owner can mint NFTS', '20001');
       }
 
@@ -63,9 +63,11 @@ export default {
       }
 
       // Edit Project with Collection Address
-      await models.Project.edit(projectId, {
-        collectionAddress,
-      });
+      if (project.collectionAddress) {
+        await models.Project.edit(projectId, {
+          collectionAddress,
+        });
+      }
 
       // We create the project and return it to the client.
       const nft = await models.NFT.create({
@@ -79,8 +81,10 @@ export default {
       });
 
       if (nft) {
-        await models.Transfer.sendTo(null, 0, nft.creatorId, nft.mintedAmount);
+        await models.Transfer.sendTo(nftId, project.id, 1, nft.creatorId, 0, nft.mintedAmount);
       }
+
+      return nft;
     },
 
     /**

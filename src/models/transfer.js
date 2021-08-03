@@ -50,7 +50,7 @@ const transfer = (sequelize, DataTypes) => {
     });
   }
 
-  Transfer.sendTo = async (nftId, projectId, from, to, price, quantity) => {
+  Transfer.sendTo = async (nftId, projectId, from, to, price = 0, quantity) => {
     return Transfer.create({
       nftId,
       projectId,
