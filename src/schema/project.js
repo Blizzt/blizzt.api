@@ -80,6 +80,7 @@ export default gql`
       description: String!
       categoryId: Int!
       photo: Upload!
+      chainId: Int!
     ): Project!
     
     editProject(id: ID!, data: EditProjectInput!): Project!

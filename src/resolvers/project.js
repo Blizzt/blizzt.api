@@ -65,6 +65,7 @@ export default {
         description,
         categoryId,
         photo,
+        chainId,
       },
       {models, me},
     ) => {
@@ -81,6 +82,7 @@ export default {
       const project = await models.Project.create({
         id: projectId,
         title,
+        chainId,
         ownerId: me.id,
         description,
         photoUrl,
