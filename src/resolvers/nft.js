@@ -63,7 +63,7 @@ export default {
       }
 
       // Edit Project with Collection Address
-      if (project.collectionAddress) {
+      if (!project.collectionAddress) {
         await models.Project.edit(projectId, {
           collectionAddress,
         });
